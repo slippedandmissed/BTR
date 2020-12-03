@@ -53,5 +53,10 @@ def my_message(data):
 def disconnect():
     print('Disconnected from mike server')
 
-sio.connect("http://{}:{}".format(MIKE_HOST, MIKE_PORT))
+while True:
+    try:
+        sio.connect("http://{}:{}".format(MIKE_HOST, MIKE_PORT))
+        break
+    except socketio.exceptions.ConnectionError:
+        pass
 sio.wait()

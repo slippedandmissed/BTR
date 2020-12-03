@@ -46,7 +46,12 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
 
 if __name__ == "__main__":
 
-    sio.connect("http://{}:{}".format(MIKE_HOST, MIKE_PORT))
+    while True:
+        try:
+            sio.connect("http://{}:{}".format(MIKE_HOST, MIKE_PORT))
+            break
+        except socketio.exceptions.ConnectionError:
+            pass
 
     with socketserver.TCPServer((JASON_HOST, JASON_PORT), MyTCPHandler) as server:
         print("Jason listening on port {}".format(JASON_PORT))
