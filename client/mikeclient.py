@@ -55,6 +55,7 @@ def disconnect():
     print('Disconnected from mike server')
 
 while True:
+    print("Trying to connect to Mike server:")
     try:
         sio.connect("http://{}:{}".format(MIKE_HOST, MIKE_PORT))
         break

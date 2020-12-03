@@ -47,6 +47,7 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
 
 if __name__ == "__main__":
 
+    print("Trying to connect to Mike server:")
     while True:
         try:
             sio.connect("http://{}:{}".format(MIKE_HOST, MIKE_PORT))
