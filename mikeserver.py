@@ -2,12 +2,9 @@
 
 from flask import Flask
 import socketio
-import socket
 
-JASON_HOST = "127.0.0.1"
-JASON_PORT = "9000"
-
-port = 8080
+MIKE_HOST = "127.0.0.1"
+MIKE_PORT = 8080
 
 sio = socketio.Server(async_mode='threading')
 app = Flask(__name__)
@@ -17,26 +14,29 @@ sids = {"jason": None, "client": None}
 
 @sio.on("connect")
 def connect(sid, environ):
-    print("connect ", sid)
+    print("Connection: ", sid)
 
 @sio.on("i_am_client")
 def connect(sid, data):
+    print("Got Mike client: {}".format(sid))
     sids["client"] = sid
 
 @sio.on("from_jason")
 def from_jason(sid, data):
+    print("Got data from Jason: {}".format(data))
     sids["jason"] = sid
     sio.emit("from_jason", data, room=sids["client"])
 
 
 @sio.on("from_mike_client")
 def from_mike_client(sid, data):
+    print("Got data from mike client: ".format(data))
     sio.emit("from_mike", data, room=sids["jason"])
 
 @sio.on("disconnect")
 def disconnect(sid):
-    print('disconnect ', sid)
+    print('Disconnection: {}'.format(sid))
 
 
 if __name__ == '__main__':
-    app.run(threaded=True, port=port)
+    app.run(threaded=True, port=MIKE_PORT)

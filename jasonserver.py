@@ -3,6 +3,12 @@
 import socketserver
 import socketio
 
+JASON_HOST = "127.0.0.1"
+JASON_PORT = 9999
+
+MIKE_HOST = "127.0.0.1"
+MIKE_PORT = 8080
+
 sio = socketio.Client()
 
 class Buffer:
@@ -14,23 +20,22 @@ returnValue = Buffer()
 
 @sio.on("connect")
 def connect():
-    print('connection established')
+    print('Connected to Mike server')
 
 @sio.on("from_mike")
 def from_mike(data):
-    print('message received with ', data)
+    print("Got data from Mike server: ", data)
     returnValue.value = data["data"]
 
 @sio.on("disconnect")
 def disconnect():
-    print('disconnected from server')
+    print("Disconnected from Mike server")
 
 
 class MyTCPHandler(socketserver.BaseRequestHandler):
     def handle(self):
-        self.data = self.request.recv(1024).strip()
-        print("{} wrote:".format(self.client_address[0]))
-        print(self.data)
+        self.data = self.request.recv(1024)
+        print("Got data from jason client {}: {}".format(self.client_address[0], self.data))
 
         sio.emit("from_jason", {"data": self.data})
 
@@ -40,11 +45,11 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
         self.request.sendall(returnValue.value)
 
 if __name__ == "__main__":
-    HOST, PORT = "localhost", 9999
 
-    sio.connect('http://localhost:8080')
+    sio.connect("http://{}:{}".format(MIKE_HOST, MIKE_PORT))
 
-    with socketserver.TCPServer((HOST, PORT), MyTCPHandler) as server:
+    with socketserver.TCPServer((JASON_HOST, JASON_PORT), MyTCPHandler) as server:
+        print("Jason listening on port {}".format(JASON_PORT))
         server.serve_forever()
     
 
