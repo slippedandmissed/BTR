@@ -4,16 +4,17 @@ import socketio
 
 sio = socketio.Client()
 
-@sio.event
+@sio.on("connect")
 def connect():
     print('connection established')
+    sio.emit("i_am_client", {})
 
-@sio.event
+@sio.on("from_jason")
 def my_message(data):
     print('message received with ', data)
-    sio.emit('my response', {'response': 'my response'})
+    sio.emit("from_mike_client", {"data": b"Coolcool"})
 
-@sio.event
+@sio.on("disconnect")
 def disconnect():
     print('disconnected from server')
 
