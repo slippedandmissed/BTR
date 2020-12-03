@@ -2,9 +2,10 @@
 
 from flask import Flask
 import socketio
+import sys
 
 MIKE_HOST = "127.0.0.1"
-MIKE_PORT = 8080
+MIKE_PORT = int(sys.argv[1])
 
 sio = socketio.Server(async_mode='threading')
 app = Flask(__name__)

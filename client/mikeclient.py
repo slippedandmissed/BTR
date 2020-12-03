@@ -3,12 +3,13 @@
 import socketio
 import socket
 import re
+import sys
 
-MIKE_HOST = "127.0.0.1"
-MIKE_PORT = 8080
+APPLICATION_HOST = sys.argv[1]
+APPLICATION_PORT = int(sys.argv[2])
 
-APPLICATION_HOST = "127.0.0.1"
-APPLICATION_PORT = 8000
+MIKE_HOST = sys.argv[3]
+MIKE_PORT = int(sys.argv[4])
 
 PROTOCOL = None
 

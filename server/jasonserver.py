@@ -2,12 +2,13 @@
 
 import socketserver
 import socketio
+import sys
 
 JASON_HOST = "127.0.0.1"
-JASON_PORT = 9999
+JASON_PORT = int(sys.argv[2])
 
 MIKE_HOST = "127.0.0.1"
-MIKE_PORT = 8080
+MIKE_PORT = int(sys.argv[1])
 
 sio = socketio.Client()
 
