@@ -41,3 +41,6 @@ cd BTR
 ```
 
 People can now connect to your application via the IP address of the machine on which you are running the servers, and the JASON_PORT, e.g. `31.88.5.3:9999`
+
+## Notes
+This does not currently support HTTP servers, just generic TCP.
